@@ -19,10 +19,10 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define HIGH	1
-# define LOW	0
-# define INPUT	0
-# define OUTPUT 1	
+# define HIGH   1
+# define LOW    0
+# define INPUT  0
+# define OUTPUT 1   
  
 char feu_a [3] = { 1, 2, 3 } ;
 char feu_b [3] = { 4, 5, 6 } ;
@@ -35,80 +35,80 @@ extern void loop (void) ;
 
 int digitalRead (int pin)
 {
-	(void) pin ;
-	
-	if ((! state) && ((rand () & 1) == 1))
-	{
-		printf ("\nBouton A !\n") ;
-		return 1 ;
-	}
-		
-	return 0 ;
+    (void) pin ;
+    
+    if ((! state) && ((rand () & 1) == 1))
+    {
+        printf ("\nBouton A !\n") ;
+        return 1 ;
+    }
+        
+    return 0 ;
 }
 
 void pinMode (int pin, int mode)
 {
-	(void) pin ;	
-	(void) mode ;
+    (void) pin ;    
+    (void) mode ;
 }
 
 void digitalWrite (int pin, int value)
 {
-	if (pin < 4)	// feu A
-	{
-		printf ("\n(state: %d) A: ", state) ;
-	}
-	else 			// feu B
-	{
-		printf ("\n(state: %d) B: ", state) ;
-		pin -= 3 ;
-	}
-	
-	switch (value)
-	{
-		case LOW :
-			printf ("---\n") ;
-			break ;
-			
-		case HIGH :
-			switch (pin)
-			{
-				case 1 :
-					printf ("vert\n") ;
-					break ;
-					
-				case 2 :
-					printf ("orange\n") ;
-					break ;
-					
-				case 3 :
-					printf ("rouge\n") ;
-					break ;
-					
-				default:
-					printf ("D'oh! (pin = %x, value = %x, state = %x)\n", pin, value, state) ;
-					break ;					
-			}
-			break ;
-			
-		default :
-			printf ("Y'a un bug: (pin = %x, value = %x, state = %x)\n", pin, value, state) ;
-			break ;
-	}
+    if (pin < 4)    // feu A
+    {
+        printf ("\n(state: %d) A: ", state) ;
+    }
+    else            // feu B
+    {
+        printf ("\n(state: %d) B: ", state) ;
+        pin -= 3 ;
+    }
+    
+    switch (value)
+    {
+        case LOW :
+            printf ("---\n") ;
+            break ;
+            
+        case HIGH :
+            switch (pin)
+            {
+                case 1 :
+                    printf ("vert\n") ;
+                    break ;
+                    
+                case 2 :
+                    printf ("orange\n") ;
+                    break ;
+                    
+                case 3 :
+                    printf ("rouge\n") ;
+                    break ;
+                    
+                default:
+                    printf ("D'oh! (pin = %x, value = %x, state = %x)\n", pin, value, state) ;
+                    break ;                 
+            }
+            break ;
+            
+        default :
+            printf ("Y'a un bug: (pin = %x, value = %x, state = %x)\n", pin, value, state) ;
+            break ;
+    }
 }
 
 void delay (int duration)
 {
-	usleep (duration << 10) ;
+    usleep (duration << 10) ;
 }
 
 int main (void)
 {
-	setup () ;
-	while (1)
-		loop () ;
-		 
-	return 0 ;	
+    setup () ;
+    while (1)
+        loop () ;
+         
+    return 0 ;  
 }
 
 */
@@ -125,11 +125,11 @@ int main (void)
 // normal (j'ai repris les durées du TP de 3, 1 et 3 secondes) :
 //
 // Cycle    0-------------------------------1-----------------      ...
-// État		0		1		2		3		0		1		2		...
-// Temps	0s		3s		4s		7s		8s		11s		12s		...
-// Feu A	vert	orange	rouge	rouge	vert	orange	rouge	...
-// Feu B	rouge	rouge	vert	orange	rouge	rouge	vert	...
-// Bouton A	X		-		-		-		X		-		-		...
+// État     0       1       2       3       0       1       2       ...
+// Temps    0s      3s      4s      7s      8s      11s     12s     ...
+// Feu A    vert    orange  rouge   rouge   vert    orange  rouge   ...
+// Feu B    rouge   rouge   vert    orange  rouge   rouge   vert    ...
+// Bouton A X       -       -       -       X       -       -       ...
 //
 // Le bouton piéton de la rue A ne doit être pris en compte que si le 
 // feu A est vert (symbolisé par X dans la matrice).
@@ -169,21 +169,21 @@ int main (void)
 // vraie.
 
 
-# define STATES				4		// nombre d'états
-# define LEDS				3		// nombre de leds pour un feu
-# define BUTTON_A_PIN		10		// broche où est branché le bouton A
+# define STATES             4       // nombre d'états
+# define LEDS               3       // nombre de leds pour un feu
+# define BUTTON_A_PIN       10      // broche où est branché le bouton A
 
-# define NO_EVENT			0		// aucun événement particulier
-# define EVENT_BUTTON_A		1		// le bouton A a été appuyé
+# define NO_EVENT           0       // aucun événement particulier
+# define EVENT_BUTTON_A     1       // le bouton A a été appuyé
 
 
 // Les broches qui pilotent les leds du feu A
 
 int led_a [LEDS] =
 {
-	1,			// vert
-	2,			// orange
-	3			// rouge
+    1,          // vert
+    2,          // orange
+    3           // rouge
 } ;
 
 
@@ -191,9 +191,9 @@ int led_a [LEDS] =
 
 int led_b [LEDS] =
 {
-	4,			// vert
-	5,			// orange
-	6			// rouge
+    4,          // vert
+    5,          // orange
+    6           // rouge
 } ;
 
 
@@ -201,11 +201,11 @@ int led_b [LEDS] =
 
 int dfa_delay [STATES] = 
 { 
-	3000,		// délai normal entre l'état 0 et l'état 1
-	1000,		// délai normal entre l'état 1 et l'état 2
-	3000,		// délai normal entre l'état 2 et l'état 3
-	1000		// délai normal entre l'état 3 et l'état 0
-} ;	
+    3000,       // délai normal entre l'état 0 et l'état 1
+    1000,       // délai normal entre l'état 1 et l'état 2
+    3000,       // délai normal entre l'état 2 et l'état 3
+    1000        // délai normal entre l'état 3 et l'état 0
+} ; 
 
 
 // Les états des feux A et B : chaque élément désigne l'index de la led 
@@ -226,10 +226,10 @@ int dfa_delay [STATES] =
 
 int dfa_state_a [STATES] =
 {
-	0,			// vert	
-	1,			// orange	
-	2,			// rouge
-	2			// rouge	
+    0,          // vert 
+    1,          // orange   
+    2,          // rouge
+    2           // rouge    
 } ;
 
 
@@ -237,10 +237,10 @@ int dfa_state_a [STATES] =
 
 int dfa_state_b [STATES] =
 {
-	2,			// rouge
-	2,			// rouge
-	0,			// vert
-	1			// orange	
+    2,          // rouge
+    2,          // rouge
+    0,          // vert
+    1           // orange   
 } ;
 
 
@@ -248,16 +248,16 @@ int dfa_state_b [STATES] =
 
 int dfa_button_a [STATES] =
 {
-	1,			// valide uniquement pendant l'état 0
-	0,			// inhibé pour les autres états
-	0,
-	0
+    1,          // valide uniquement pendant l'état 0
+    0,          // inhibé pour les autres états
+    0,
+    0
 } ;
 
 
 // La variable qui maintient l'état courant
 
-int state = 0 ;		
+int state = 0 ;     
 
 
 // L'initialisation est très simple : mettre les leds en output et le 
@@ -265,15 +265,15 @@ int state = 0 ;
 
 void setup ()
 {
-	int i ;
-	
-	for (i = 0 ; i < LEDS ; i ++)
-	{
-		pinMode (led_a [i], OUTPUT) ;
-		pinMode (led_b [i], OUTPUT) ;		
-	}
-	
-	pinMode (BUTTON_A_PIN, INPUT) ;
+    int i ;
+    
+    for (i = 0 ; i < LEDS ; i ++)
+    {
+        pinMode (led_a [i], OUTPUT) ;
+        pinMode (led_b [i], OUTPUT) ;       
+    }
+    
+    pinMode (BUTTON_A_PIN, INPUT) ;
 }
 
 
@@ -291,31 +291,31 @@ void setup ()
 
 int wait (int timeToGo)
 {
-	// On vérifie qu'il y a bien un délai minimal d'au moins 0,1 s
-	if (timeToGo < 100)
-		timeToGo = 100 ;
-		
-	// Boucle de polling toutes les 0,1s pendant timeToGo
-	while (timeToGo > 0)
-	{
-		// Si un événement *valide* est détecté on arrête la 
-		// boucle de polling pour remonter prioritairement
-		// l'information.
-		
-		// Bouton A autorisé à ce moment ?
-		if (dfa_button_a [state])
-		{
-			if (digitalRead (BUTTON_A_PIN))
-				return EVENT_BUTTON_A ;
-		}
-		
-		delay (100) ;
-		// 0,1 s de moins à attendre
-		timeToGo -= 100 ;
-	}
-	
-	// Aucun événement particulier détecté pendant l'attente
-	return NO_EVENT ;
+    // On vérifie qu'il y a bien un délai minimal d'au moins 0,1 s
+    if (timeToGo < 100)
+        timeToGo = 100 ;
+        
+    // Boucle de polling toutes les 0,1s pendant timeToGo
+    while (timeToGo > 0)
+    {
+        // Si un événement *valide* est détecté on arrête la 
+        // boucle de polling pour remonter prioritairement
+        // l'information.
+        
+        // Bouton A autorisé à ce moment ?
+        if (dfa_button_a [state])
+        {
+            if (digitalRead (BUTTON_A_PIN))
+                return EVENT_BUTTON_A ;
+        }
+        
+        delay (100) ;
+        // 0,1 s de moins à attendre
+        timeToGo -= 100 ;
+    }
+    
+    // Aucun événement particulier détecté pendant l'attente
+    return NO_EVENT ;
 }
 
 
@@ -323,27 +323,27 @@ int wait (int timeToGo)
 
 void loop ()
 {
-	// 0. Si l'état invalide 4 (vu que ce serait le cinquième et que 
-	// l'on en a que quatre) a été atteint on se replace à l'état 0
-	// puisque c'est en fait un nouveau cycle qui débute
-	if (state == 4)
-		state = 0 ;
+    // 0. Si l'état invalide 4 (vu que ce serait le cinquième et que 
+    // l'on en a que quatre) a été atteint on se replace à l'état 0
+    // puisque c'est en fait un nouveau cycle qui débute
+    if (state == 4)
+        state = 0 ;
 
-	// 1. On allume les feux selon l'état courant
-	digitalWrite (led_a [dfa_state_a [state]], HIGH) ;
-	digitalWrite (led_b [dfa_state_b [state]], HIGH) ;
-	
-	// 2. On attend pendant la durée normale avant la transition vers 
-	// l'état suivant *OU* qu'un événement permis pendant cet état se 
-	// produise
-	wait (dfa_delay [state]) ;
-	
-	// 3. On éteint les feux (avec la persistance rétiniène ça ne 
-	// se voit pas vu que l'on va reboucler quasi-instantanément sur
-	// l'état suivant)
-	digitalWrite (led_a [dfa_state_a [state]], LOW) ;
-	digitalWrite (led_b [dfa_state_b [state]], LOW) ;
-	
-	// 4. On passe à l'état suivant avant de reboucler
-	state ++ ;	
+    // 1. On allume les feux selon l'état courant
+    digitalWrite (led_a [dfa_state_a [state]], HIGH) ;
+    digitalWrite (led_b [dfa_state_b [state]], HIGH) ;
+    
+    // 2. On attend pendant la durée normale avant la transition vers 
+    // l'état suivant *OU* qu'un événement permis pendant cet état se 
+    // produise
+    wait (dfa_delay [state]) ;
+    
+    // 3. On éteint les feux (avec la persistance rétiniène ça ne 
+    // se voit pas vu que l'on va reboucler quasi-instantanément sur
+    // l'état suivant)
+    digitalWrite (led_a [dfa_state_a [state]], LOW) ;
+    digitalWrite (led_b [dfa_state_b [state]], LOW) ;
+    
+    // 4. On passe à l'état suivant avant de reboucler
+    state ++ ;  
 }
